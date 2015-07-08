@@ -236,11 +236,11 @@ print DEBUG Dumper \%task_frequency_in_configuration;
 my %partition_list;
 my %partition_PRR_max_resource;
 my $partition_no=0;
-print @task_list;
+#print @task_list;
 
-#my @temp_array_test = qw(t0 t1 t2);
+my @temp_array_test = qw(t0 t1 t2);
 
-my @temp_array_test = @task_list;
+#my @temp_array_test = @task_list;
 
 
 my $size = @temp_array_test;		
@@ -347,231 +347,192 @@ for (my $i=0; $i<1; $i++){
 ###################################Insert Partition Subroutine########################################
 
 sub insert_partition{
-#	#my $loop = 0;
-#	my $PRR=0;
-#	my $one_task_per_PRR_partition_no = 0;
-#
-#	
-#	#########################Intial partition one PRR per task ###################
-#	
-#	$partition_list{$one_task_per_PRR_partition_no}{"SW"} = 0;
-#	$partition_PRR_max_resource{$one_task_per_PRR_partition_no}{"SW"} = 0;
-#	
-#	
-#	foreach my $val (@task_list)
-#	{
-#		
-#		$partition_list{$one_task_per_PRR_partition_no}{$PRR} = $val;
-#	#	$partition_list{$partition}{0} = "t0,t1,t2,t3,t4,t5"; ## worst case reconfiguration time aka least resource requirement
-#	#	$partition_list{$partition}{1} = "t6,t7"; ## worst case reconfiguration time aka least resource requirement
-#	#	$partition_list{1}{0} = "t5,t3"; ## worst case reconfiguration time aka least resource requirement
-#	#	$partition_list{1}{1} = "t4,t6"; ## worst case reconfiguration time aka least resource requirement
-#	#	
-#		
-#		$partition_PRR_max_resource{$one_task_per_PRR_partition_no}{$PRR} = 0;
-#	#	$partition_PRR_max_resource{1}{$PRR} = 0;
-#	#	
-#		$PRR++;
-#		#$partition_list{$partition}{$PRR} = $val;
-#	}
-#	
-##	print DEBUG "Initial partition list\n";
-##	print DEBUG Dumper \%partition_list;
 
-##############################################Intial partition one PRR per task end ###########################################
 
 ##############################################Insert other partitions ###########################################
 	
 	
-	
-	
-#	my $starting_partition_no = 2;
-#	
-#	$partition_list{$starting_partition_no}{"SW"} = 0;
-#	$partition_PRR_max_resource{$starting_partition_no}{"SW"} = 0;
-#	
-#	
-#	#my $create_paritition;
-#	
-#	my $size = @task_list;
-#	my $loop_size = ($size*$size) - 1 ;
-#	my $partition = 2;
-#	my @temp_array;
-#	
-#	###########partitions exluding SW########################
-#	foreach my $task (@task_list){
-#
-#		#my @temp_array;
-#		
-#		push (@temp_array, $task); 
-#        
-#        
-#	}
-	
-#	my @temp_array_test_2 = qw(t5 t6);
-#	my $iter_2 = combinations(\@temp_array_test_2, 1);
-#	while (my $x = $iter_2->next) {
-#	     # ...
-#	     print "@$x\n";
-#	     
-#	    # my $string = "@$p";
-#	}
-#	
-#	
 
 	
-	#@temp_array_test = @task_list;
-	print @temp_array_test;
-#	my $iter = combinations(\@temp_array_test, 1);
+
+
+
+	@temp_array_test = qw (t0 t1 t2);
+	print "@temp_array_test\n";
 	
-	#my %partition_list;
-	#my $partition_no = 0;
 	my $loop_PRR = 0;
+	my @all_partitions = partitions(\@temp_array_test);
 	
- 	
-    while ($size > 0){
-    	
-     	#$partition_list{$partition_no}{"SW"} = 0;
-	#	$partition_PRR_max_resource{$partition_no}{"SW"} = 0;
-	    
-	    
-	 	#my $iter = combinations(\@temp_array_test, $size);
-		#$size = 10;
-		my $iter = combinations(\@temp_array_test, $size);
-		#print "size = $size\n";
+	#print "@all_partitions\n";
 	
-		while (my $p = $iter->next) {
-	     # ...
-	     #print "@$p\n";
-	     
-	     my $string = "@$p";
-	     
-	     $string =~ s/\s+/,/g;
-	     
-	     $partition_list{$partition_no}{$loop_PRR} = $string;  
-	     $partition_PRR_max_resource{$partition_no}{$loop_PRR} = 0; 
-	     
-	     
-	     my $temp_loop = $loop_PRR;
-	     my @temp_array;
-	     foreach my $task(@temp_array_test){
-	     	
-	     	
-	     	if ($string !~ /$task/){
-	     		
-	     	#	print "task left/$string = $task / $string\n";
-	     		
-	     		push (@temp_array, $task);
-	     		$temp_loop++;
-	     		$partition_list{$partition_no}{$temp_loop} = $task;
-	     		$partition_PRR_max_resource{$partition_no}{$temp_loop} = 0; 
-	     		
-	     		my $size_temp = @temp_array;
-	     		
-	     		#print "size_temp = $size_temp\n";
-	     		
-	     		while ($size_temp >= 1){
-	     			
-	     			my $iter_2 = combinations(\@temp_array, $size_temp);
-	     			
-	     			
-	     				while (my $x = $iter_2->next) {
-					     # ...
-					     #print "@$p\n";
-					     
-					     my $string = "@$x";
-					     
-					     $string =~ s/\s+/,/g;
-					  #   print "s = $string\n";
-							
-	     				}
-	     			
-	     			
-	     			if ($size_temp == 1){
-	     				
-	     				     
-					     $partition_list{$partition_no}{$temp_loop} = $task;	
-	     				 $partition_PRR_max_resource{$partition_no}{$temp_loop} = 0;
-	     			}
-#	     			
-#	     			else{
-#	                     $partition_no++;
-#	                     
-#	                     my $loop_x = 0;
-#	                     while ($loop_x < $temp_loop){
-#	                     	$partition_list{$partition_no}{$loop_x} = $partition_list{$partition_no-1}{$loop_x} = $task;
-#	                     	$loop_x++;
-#	                     }
-#	     				# $partition_list{$partition_no}{$temp_loop} = $task;
-#	     				
-#	     			} 
-	     			#$partition_no++;
-	     			
-	     			
-	     			#$partition_list{$partition_no}{$temp_loop} = $task;
-	     			$size_temp--;
-	     		} 
-	     		
-	     	}
-	     	
-	     }
-	     
-
-	     
-	     $partition_no++;
-	    
-	 	}
-	 	
-	 #	$partition_no = 0;
-	 	#$loop_PRR++;
-	 	$size--;
-    }
- 	
-# 	$loop_PRR++;
-#	$partition_no = 2;
-#
-# 	$iter = combinations(\@temp_array_test, 3);
-# 	while (my $p = $iter->next) {
-#     # ...
-#     #print "@$p\n";
-#     
-#     my $string = "@$p";
-#     
-#     $string =~ s/\s+/,/g;
-#     
-#     $partition_list{$partition_no}{$loop_PRR} = $string;
-#     
-#     $partition_no++;
-#     
-#     
-# 	}
- 	
- 	
+	for my $ref (@all_partitions)
+	
+	{
+	
+		
+	print "\nreference = $ref\n";	
+	
+		for my $value (@$ref){
+		
+		#	print "value =  @$value\n";
+			
+			
+			my $scal = join(",", @$value);
+			
+		
+			print "scalar =  $scal\n";
+			
+			$partition_list{$partition_no}{$loop_PRR} = $scal;
+			$loop_PRR++;
+		}
+		$loop_PRR = 0;
+		$partition_no++;
+	}
+	
+	
+	
 
  	print DEBUG" XXXXXXXXXXXXXXX\n";
 	print DEBUG Dumper \%partition_list;
 	
 	
+#	print Dumper \%all_partitions;
+	
+	#my $iter = partitions(\@temp_array_test);
+	#print $iter;
+# 	while (my $p = $iter->next) {
+#     # ...
+#     
+#    #my $ref = $p;
+#  #  print "$ref\n";
+#    # print "@$p\n";
+#     for my $ref (@$p) {
+#     	
+#     #	print "\n ref=  @$ref\n";
+#     	#   print "$temp_array_test[$ref]\n";
+#     	
+#     }
+#   #  
+#     
+#     #print "$temp_array_test[$ref]\n";
+#     
+#   #  my $value = @$p;
+#     
+#   #  print "
+#     
+#     #my $string = "@$p";
+#     #print "$string\n";
+#     
+##     $string =~ s/\s+/,/g;
+##     
+##     $partition_list{$partition_no}{$loop_PRR} = $string;
+##     
+##     $partition_no++;
+##     
+#     
+# 	}
+ 	
+	
+	
+ 	
+#    while ($size > 0){
+#    	
+#     
+#		my $iter = combinations(\@temp_array_test, $size);
+#	
+#		while (my $p = $iter->next) {
+#	     # ...
+#	     #print "@$p\n";
+#	     
+#	     my $string = "@$p";
+#	     
+#	     $string =~ s/\s+/,/g;
+#	     
+#	     $partition_list{$partition_no}{$loop_PRR} = $string;  
+#	     $partition_PRR_max_resource{$partition_no}{$loop_PRR} = 0; 
+#	     
+#	     
+#	     my $temp_loop = $loop_PRR;
+#	     my @temp_array;
+#	     foreach my $task(@temp_array_test){
+#	     	
+#	     	
+#	     	if ($string !~ /$task/){
+#	     		
+#	     	#	print "task left/$string = $task / $string\n";
+#	     		
+#	     		push (@temp_array, $task);
+#	     		$temp_loop++;
+#	     		$partition_list{$partition_no}{$temp_loop} = $task;
+#	     		$partition_PRR_max_resource{$partition_no}{$temp_loop} = 0; 
+#	     		
+#	     		my $size_temp = @temp_array;
+#	     		
+#	     		#print "size_temp = $size_temp\n";
+#	     		
+#	     		while ($size_temp >= 1){
+#	     			
+#	     			my $iter_2 = combinations(\@temp_array, $size_temp);
+#	     			
+#	     			
+#	     				while (my $x = $iter_2->next) {
+#					     # ...
+#					     #print "@$p\n";
+#					     
+#					     my $string = "@$x";
+#					     
+#					     $string =~ s/\s+/,/g;
+#					  #   print "s = $string\n";
+#							
+#	     				}
+#	     			
+#	     			
+#	     			if ($size_temp == 1){
+#	     				
+#	     				     
+#					     $partition_list{$partition_no}{$temp_loop} = $task;	
+#	     				 $partition_PRR_max_resource{$partition_no}{$temp_loop} = 0;
+#	     			}
+##	     			
+##	     			else{
+##	                     $partition_no++;
+##	                     
+##	                     my $loop_x = 0;
+##	                     while ($loop_x < $temp_loop){
+##	                     	$partition_list{$partition_no}{$loop_x} = $partition_list{$partition_no-1}{$loop_x} = $task;
+##	                     	$loop_x++;
+##	                     }
+##	     				# $partition_list{$partition_no}{$temp_loop} = $task;
+##	     				
+##	     			} 
+#	     			#$partition_no++;
+#	     			
+#	     			
+#	     			#$partition_list{$partition_no}{$temp_loop} = $task;
+#	     			$size_temp--;
+#	     		} 
+#	     		
+#	     	}
+#	     	
+#	     }
+#	     
+#
+#	     
+#	     $partition_no++;
+#	    
+#	 	}
+#	 	
+#	 #	$partition_no = 0;
+#	 	#$loop_PRR++;
+#	 	$size--;
+#    }
+ 	
+
+ 	
+ 	
+	
 #	%partition_list = %partition_list;
-	###########partitions exluding SW end########################
-	
-	
-	###########partitions inluding SW########################
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	###########partitions inluding SW end########################
-	
+
 	
 	
 #	my $fact_size = fac($size);
